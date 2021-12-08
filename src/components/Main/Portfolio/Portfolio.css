@@ -1,0 +1,120 @@
+.portfolio {
+    padding: 0 70px 105px;
+} 
+
+@media screen and (max-width: 1020px) {
+    .portfolio {
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-bottom: 90px;
+    } 
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio {
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-bottom: 70px;
+    } 
+}
+
+.portfolio__title {
+    color:rgba(160,160,160,1);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.11;
+    margin: 0 0 50px 0;
+}
+
+@media screen and (max-width: 1020px) {
+    .portfolio__title{
+        font-size: 18px;
+    } 
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__title {
+        font-size: 14px;
+        line-height: 1.42;
+        margin-bottom: 40px;
+    } 
+}
+
+@media screen and (max-width: 320px) {
+    .portfolio__title {
+        margin-bottom: 30px;
+    } 
+}
+
+.portfolio__nav-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.portfolio__nav-item {
+    margin: 0;
+    padding: 20px 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(232,232,232,1);
+}
+
+.portfolio__nav-item:last-child {
+    border-bottom: 0px solid rgba(232,232,232,1);
+}
+
+.portfolio__link {
+    text-decoration: none;
+    transition: opacity .5s ease;
+    color:rgba(0,0,0,1);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.66;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.portfolio__link:hover {
+    opacity: .6;
+}
+
+@media screen and (max-width: 1020px) {
+    .portfolio__link {
+        font-size: 28px;
+        line-height: 1.78;
+    } 
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__link {
+        font-size: 18px;
+        line-height: 1.55;
+    } 
+}
+
+.portfolio__image {
+    width: 18px;
+    height: 18px;
+}
+
+@media screen and (max-width: 1020px) {
+    .portfolio__image {
+        width: 16px;
+        height: 16px;
+    } 
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__image {
+        width: 12px;
+        height: 12px;
+    } 
+}

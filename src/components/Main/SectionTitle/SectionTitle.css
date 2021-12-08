@@ -1,0 +1,27 @@
+.section-title {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-bottom: 23px;
+    border-bottom: 1px solid rgba(0,0,0,1);
+}
+
+.section-title__text {
+    margin: 0px;
+}
+
+.section-title__link {
+    text-decoration: none;
+    color:rgba(0,0,0,1);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.21;
+}
+
+@media screen and (max-width: 420px) {
+    .section-title__link {
+        font-size: 18px;
+    } 
+}
