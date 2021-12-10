@@ -17,28 +17,31 @@ function SearchForm({ onSearchClick }) {
         setsearchValue("");
     };
 
-    function handleChangeShort () {
+    const handleChangeShort = () => {
         setIsShort(!isShort);
     }
 
-    function handleChangeSearchValue(e) {
+    const handleChangeSearchValue = (e) => {
         setsearchValue(e.target.value);
     }
 
-    function handleSubmit() {
+    const handleSubmit = (e) => {
+        console.log(e);
+        e.preventDefault();
         // onSearchClick();
     }
 
     return (
         <section className="searchform">
             <div className="searchform__container">
-                <div className="searchform__form">
+                <form className="searchform__form" onSubmit={handleSubmit}>
                     <img src={find} alt="Поле поиска фильма" className="searchform__logo" />
-                    <input className="searchform__text" type="text" placeholder="Фильм"
-                        value={searchValue} onChange={handleChangeSearchValue}></input>
-                    <button className="searchform__button" type="button" aria-label="Найти фильм" 
-                        onClick={handleSubmit}>Найти</button>
-                </div>
+                    <fieldset className="searchform__info">
+                        <input className="searchform__text" type="text" placeholder="Фильм" required
+                            value={searchValue} onChange={handleChangeSearchValue}></input>
+                    </fieldset>
+                    <button className="searchform__button" type="submit" aria-label="Найти фильм">Найти</button>
+                </form>
                 <div className="searchform__filter">
                     <label className="searchform__label">
                         <input className="searchform__checkbox" type="checkbox"
