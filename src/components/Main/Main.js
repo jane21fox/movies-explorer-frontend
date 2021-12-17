@@ -10,11 +10,11 @@ function Main() {
 
     return (
         <main>
-            <NavTab/>
-            <AboutProject/>
-            <Techs/>
-            <AboutMe/>
-            <Portfolio/>
+            <NavTab />
+            <AboutProject />
+            <Techs />
+            <AboutMe />
+            <Portfolio />
         </main>
     );
 }

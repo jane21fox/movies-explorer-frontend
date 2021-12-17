@@ -20,13 +20,13 @@
     align-items: flex-start;
     border: 0;
     padding: 0;
-    margin: 0 0 69px;
+    margin: 0 0 43px;
     height: 276px;
 }
 
 @media screen and (max-width: 420px) {
     .form__info {
-        margin-bottom: 157px;
+        margin-bottom: 131px;
     }
 }
 
@@ -69,7 +69,7 @@
     border: 1px solid rgba(232,232,232,1);
 }
 
-.form__field_error {
+.form__field_notvalid{
     color:rgba(255,64,98,1);
 }
 
@@ -87,7 +87,18 @@
     font-size: 10px;
     line-height: 1.21;
     width: 100%;
-    height: 13px;
+    min-height: 13px;
+}
+
+.form__field-apierror {
+    color:rgba(255,64,98,1);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.21;
+    width: 100%;
+    min-height: 13px;
+    margin: 0 0 10px;
 }
 
 .form__button {
@@ -115,6 +126,11 @@
     .form__button {
         font-size: 12px;
     }
+}
+
+.form__button_disabled {
+    color:rgba(255,255,255,0.7);
+    background-color: rgba(0,0,0,0.5);
 }
 
 .form__question {

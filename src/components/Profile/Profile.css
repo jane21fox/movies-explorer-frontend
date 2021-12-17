@@ -68,7 +68,7 @@
     grid-template-columns: 1fr;
     border: 0;
     padding: 0;
-    margin-bottom: 206px;
+    margin-bottom: 180px;
 }
 
 .profile__field-label {
@@ -101,6 +101,10 @@
     box-sizing: border-box;
 }
 
+.profile__field_notvalid{
+    color:rgba(255,64,98,1);
+}
+
 .profile__field:focus{
     /* border-bottom: 1px solid rgba(232,232,232,1); */
     background-color: rgba(249,249,249,1);
@@ -123,6 +127,30 @@
     height: 13px;
 }
 
+.profile__field-apierror {
+    color:rgba(255,64,98,1);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.21;
+    width: 100%;
+    min-height: 13px;
+    margin: 0 0 10px;
+    text-align: center;
+}
+
+.profile__field-success{
+    color:rgba(43,224,128,1);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.21;
+    width: 100%;
+    min-height: 13px;
+    margin: 0 0 10px;
+    text-align: center;
+}
+
 .profile__button {
     color:rgba(0,0,0,1);
     font-style: normal;
@@ -137,6 +165,10 @@
 
 .profile__button:hover {
     opacity: .6;
+}
+
+.profile__button_disabled {
+    color:rgba(0,0,0,0.4);
 }
 
 @media screen and (max-width: 420px) {

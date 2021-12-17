@@ -1,34 +1,32 @@
-import { useState, useEffect } from 'react';
 import find from '../../images/find.svg';
 
 import './SearchForm.css';
 
-function SearchForm({ onSearchClick }) {
+function SearchForm({
+    onFilterMovies,
+    isShort,
+    setIsShort,
+    setSearchValue,
+    values,
+    handleChange,
+    errors,
+    isValid
+}) {
 
-    const [isShort, setIsShort] = useState(false);
-    const [searchValue, setsearchValue] = useState("");
+    const getActualIsShort = () => {
+        return !isShort;
+    }
 
-    useEffect(() => {
-        resetForm();
-    }, []);
-
-    const resetForm = () => {
-        setIsShort(false);
-        setsearchValue("");
-    };
-
-    const handleChangeShort = () => {
+    const handleChangeShort = (e) => {
         setIsShort(!isShort);
+        if (isValid) onFilterMovies(values.searchValue, getActualIsShort());
     }
 
-    const handleChangeSearchValue = (e) => {
-        setsearchValue(e.target.value);
-    }
-
-    const handleSubmit = (e) => {
-        console.log(e);
+    const handleSubmit = (e, actualIsShort = isShort) => {
         e.preventDefault();
-        // onSearchClick();
+
+        setSearchValue(values.searchValue);
+        onFilterMovies(values.searchValue, actualIsShort);
     }
 
     return (
@@ -37,20 +35,35 @@ function SearchForm({ onSearchClick }) {
                 <form className="searchform__form" onSubmit={handleSubmit}>
                     <img src={find} alt="Поле поиска фильма" className="searchform__logo" />
                     <fieldset className="searchform__info">
-                        <input className="searchform__text" type="text" placeholder="Фильм" required
-                            value={searchValue} onChange={handleChangeSearchValue}></input>
+                        <input
+                            className="searchform__text"
+                            type="text"
+                            name="searchValue"
+                            placeholder="Фильм"
+                            required
+                            autoComplete="off"
+                            value={values.searchValue}
+                            onChange={handleChange}>
+                        </input>
                     </fieldset>
-                    <button className="searchform__button" type="submit" aria-label="Найти фильм">Найти</button>
+                    <button
+                        className={`searchform__button ${!isValid && "searchform__button_disabled"}`}
+                        disabled={!isValid}
+                        type="submit"
+                        aria-label="Найти фильм">
+                        Найти
+                    </button>
                 </form>
                 <div className="searchform__filter">
                     <label className="searchform__label">
-                        <input className="searchform__checkbox" type="checkbox"
+                        <input className="searchform__checkbox" checked={isShort} type="checkbox"
                             onChange={handleChangeShort}></input>
                         <span className="searchform__visible-checkbox"></span>
                     </label>
                     <span className="searchform__label-text">Короткометражки</span>
                 </div>
             </div>
+            <span className="searchform__field-error">{errors.searchValue !== "" && "Нужно ввести ключевое слово"}</span>
             <div className="searchform__line"></div>
         </section>
     );
