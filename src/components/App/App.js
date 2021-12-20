@@ -56,12 +56,12 @@ function App() {
       .then((data) => {
         if (data) {
           setLoggedIn(true);
-          setAuthDone(true);
           setCurrentUser(data);
           setUserData({
             _id: data._id,
             email: data.email
           });
+          setAuthDone(true);
         }
       })
       .catch(() => {
