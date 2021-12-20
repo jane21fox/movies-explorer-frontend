@@ -10,7 +10,8 @@ function SearchForm({
     values,
     handleChange,
     errors,
-    isValid
+    isValid,
+    isSaved
 }) {
 
     const getActualIsShort = () => {
@@ -19,7 +20,7 @@ function SearchForm({
 
     const handleChangeShort = (e) => {
         setIsShort(!isShort);
-        if (isValid) onFilterMovies(values.searchValue, getActualIsShort());
+        if ((!isSaved && isValid) || isSaved) onFilterMovies(values.searchValue, getActualIsShort());
     }
 
     const handleSubmit = (e, actualIsShort = isShort) => {

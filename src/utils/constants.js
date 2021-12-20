@@ -37,3 +37,4 @@ export const SUCCESS_MSG = `Данные сохранены успешно`;
 export const NO_RESULTS = `Ничего не найдено`;
 export const SEARCH_ERROR = `Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. 
                             Подождите немного и попробуйте ещё раз`;
+export const EMAIL_VALIDATION_ERROR = `Почта не соответствует шаблону`;

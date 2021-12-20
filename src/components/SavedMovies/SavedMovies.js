@@ -20,6 +20,7 @@ function SavedMovies({
     isShort,
     searchValue,
     isShortSM,
+    searchValueSM,
     setIsShortSM,
     setSearchValueSM
 }) {
@@ -41,7 +42,7 @@ function SavedMovies({
                 .catch(() => {
                     setApiMsg(SEARCH_ERROR);
                 });
-        else setSavedMoviesFiltered(savedMovies);
+        else handleFilterMovies(searchValueSM, isShortSM);
     }, []);
 
     const handleFilterMovies = (searchValue, isShort) => {
@@ -85,6 +86,7 @@ function SavedMovies({
                 handleChange={handleChange}
                 errors={errors}
                 isValid={isValid}
+                isSaved={true}
             />
             {isPreload && <Preloader />}
             {!isPreload && <MoviesCardList

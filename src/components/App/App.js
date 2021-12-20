@@ -27,6 +27,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [authDone, setAuthDone] = useState(false);
 
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [isErrorMsgOpen, setIsErrorMsgOpen] = useState(false);
@@ -47,6 +48,7 @@ function App() {
     if (token) {
       auth(token)
     }
+    else setAuthDone(true);
   }, [loggedIn]);
 
   const auth = async (token) => {
@@ -54,6 +56,7 @@ function App() {
       .then((data) => {
         if (data) {
           setLoggedIn(true);
+          setAuthDone(true);
           setCurrentUser(data);
           setUserData({
             _id: data._id,
@@ -62,6 +65,7 @@ function App() {
         }
       })
       .catch(() => {
+        setAuthDone(true);
         localStorage.removeItem('token');
       });
   };
@@ -148,6 +152,7 @@ function App() {
 
   function resetAccount() {
     setLoggedIn(false);
+    setAuthDone(false);
     setUserData({});
     setDataMoviesFiltered([]);
     setIsShort(false);
@@ -186,7 +191,7 @@ function App() {
             <Route exact path="/sign-up">
               <Register onRegister={onRegister} onLogin={onLogin} />
             </Route>
-            <ProtectedRoute
+            {authDone && <ProtectedRoute
               path="/movies"
               component={Movies}
               loggedIn={loggedIn}
@@ -205,8 +210,8 @@ function App() {
               setIsShort={setIsShort}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
-            />
-            <ProtectedRoute
+            />}
+            {authDone && <ProtectedRoute
               path="/saved-movies"
               component={SavedMovies}
               loggedIn={loggedIn}
@@ -221,19 +226,20 @@ function App() {
               isShort={isShort}
               searchValue={searchValue}
               isShortSM={isShortSM}
+              searchValueSM={searchValueSM}
               setIsShortSM={setIsShortSM}
               setSearchValueSM={setSearchValueSM}
-            />
-            <ProtectedRoute
+            />}
+            {authDone && <ProtectedRoute
               path="/profile"
               component={Profile}
               loggedIn={loggedIn}
               onSignOut={onSignOut}
               onProfile={onProfile}
-            />
-            <Route path="*">
+            />}
+            {authDone && <Route path="*">
               <PageNotFound />
-            </Route>
+            </Route>}
           </Switch>
           <Footer />
         </Router>

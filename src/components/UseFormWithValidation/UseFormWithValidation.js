@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import validator from 'validator';
+import { EMAIL_VALIDATION_ERROR } from '../../utils/constants.js';
 
 export function useFormWithValidation(initialValues, initialErrors) {
   const [values, setValues] = useState(initialValues);
@@ -10,9 +12,16 @@ export function useFormWithValidation(initialValues, initialErrors) {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    setValues({ ...values, [name]: value });
-    setErrors({ ...errors, [name]: target.validationMessage });
-    setIsValid(target.closest("form").checkValidity());
+    if (name === 'email' && !validator.isEmail(value)) {
+      setValues({ ...values, [name]: value });
+      setErrors({ ...errors, [name]: EMAIL_VALIDATION_ERROR });
+      setIsValid(false);
+    }
+    else {
+      setValues({ ...values, [name]: value });
+      setErrors({ ...errors, [name]: target.validationMessage });
+      setIsValid(target.closest("form").checkValidity());
+    }
     setIsEqual(JSON.stringify({ ...values, [name]: value }) === JSON.stringify(initialValues));
   };
 
