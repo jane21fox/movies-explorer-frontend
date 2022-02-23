@@ -1,55 +1,57 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Form from '../Form/Form';
 import logo from '../../images/header-logo.svg';
+import { useFormWithValidation } from '../UseFormWithValidation/UseFormWithValidation';
 
 import './Register.css';
 
-function Register() {
+function Register({ onRegister, onLogin }) {
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const history = useHistory();
+    const [ApiMsg, setApiMsg] = useState('');
 
-    // const history = useHistory();
-
-    // const resetForm = () => {
-    //     setName("");
-    //     setEmail("");
-    //     setEmail("");
-    // };
+    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
+        name: '',
+        email: '',
+        password: ''
+    }, {
+        name: '',
+        email: '',
+        password: ''
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setApiMsg('');
 
-        // onRegister({ password, email })
-        // .then(() => {
-        //     onStatus(true);
-        //     resetForm();
-        //     history.push('/sign-in');
-        // })
-        // .catch((err) => {
-        //     onStatus(false);
-        // });
+        const { name, password, email } = values;
+        onRegister({ name, password, email })
+            .then(() => {
+                return onLogin({ password, email });
+            })
+            .then(() => {
+                resetForm({
+                    name: '',
+                    email: '',
+                    password: ''
+                }, {
+                    name: '',
+                    email: '',
+                    password: ''
+                });
+                history.push('/movies');
+            })
+            .catch((err) => {
+                setApiMsg(err);
+            });
     };
 
-    const handleChangeName = (e) => {
-        setName(e.target.value);
-    }
-
-    const handleChangeEmail = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const handleChangePassword = (e) => {
-        setPassword(e.target.value);
-    }
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         history.push('/');
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            history.push('/movies');
+        }
+    }, []);
 
     return (
         <section className="register">
@@ -59,19 +61,18 @@ function Register() {
                 </Link>
                 <h2 className="register__title">Добро пожаловать!</h2>
             </div>
-            <Form 
-                formName="register" 
+            <Form
+                formName="register"
                 btnTitle="Зарегистрироваться"
                 question="Уже зарегистрированы?"
                 link="Войти"
                 linkRoute="sign-in"
-                name={name}
-                email={email}
-                password={password}
-                handleChangeName={handleChangeName}
-                handleChangeEmail={handleChangeEmail}
-                handleChangePassword={handleChangePassword}
+                values={values}
+                errors={errors}
+                isValid={isValid}
+                handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                ApiMsg={ApiMsg}
             />
         </section>
     );

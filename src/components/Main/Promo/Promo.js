@@ -1,7 +1,7 @@
 import './Promo.css';
 
 function Promo() {
-    
+
     return (
         <div className="promo">
             <p className="promo-text promo-text_back">1 неделя</p>

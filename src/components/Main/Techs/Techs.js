@@ -4,10 +4,10 @@ import { techs } from '../../../utils/constants';
 import './Techs.css';
 
 function Techs() {
-    
+
     return (
         <section className="techs">
-            <SectionTitle title="Технологии" mark="techs"/>
+            <SectionTitle title="Технологии" mark="techs" />
             <h3 className="techs__title">
                 7 технологий
             </h3>
@@ -15,10 +15,10 @@ function Techs() {
                 На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.
             </p>
             <ul className="techs__list">
-                {techs.map((element, index) => {
+                {techs.map((element) => {
                     return (
-                        <li key={index}>
-                            <p className="techs__item">{element}</p>
+                        <li key={element.id}>
+                            <p className="techs__item">{element.tech}</p>
                         </li>)
                 })}
             </ul>

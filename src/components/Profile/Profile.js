@@ -1,71 +1,98 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { useFormWithValidation } from '../UseFormWithValidation/UseFormWithValidation';
+import { SUCCESS_MSG } from '../../utils/constants.js';
 
 import './Profile.css';
 
-function Profile({ onSignOut }) {
-    
+function Profile({ onSignOut, onProfile }) {
+
     const currentUser = useContext(CurrentUserContext);
+    const [apiMsg, setApiMsg] = useState('');
+    const [isSuccess, setIsSuccess] = useState(true);
 
-    const [name, setName] = useState(currentUser.name);
-    const [email, setEmail] = useState(currentUser.email);
-
-    // const history = useHistory();
-
-    // const resetForm = () => {
-    //     setName('');
-    //     setEmail('');
-    // };
+    const { values, handleChange, errors, isValid, isEqual, resetForm } = useFormWithValidation({
+        name: currentUser?.name,
+        email: currentUser?.email
+    }, {
+        name: '',
+        email: ''
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setApiMsg('');
 
-    //     onLogin({ name, email })
-    //     .then(() => {
-    //         resetForm();
-    //         history.push('/');
-    //     })
-    //     .catch((err) => {
-    //         onStatus(false);
-    //     });
+        const { name, email } = values;
+        onProfile({ name, email })
+            .then((userData) => {
+                resetForm({
+                    name: userData.name,
+                    email: userData.email
+                }, {
+                    name: '',
+                    email: ''
+                });
+                setApiMsg(SUCCESS_MSG);
+                setIsSuccess(true);
+            })
+            .catch((err) => {
+                setApiMsg(err);
+                setIsSuccess(false);
+            });
     };
-
-    const handleChangeEmail = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const handleChangeName = (e) => {
-        setName(e.target.value);
-    }
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         history.push('/');
-    //     }
-    // }, []);
 
     return (
         <section className="profile">
-            <form name="profile" className="profile__container" onSubmit={handleSubmit}> 
+            <form name="profile" className="profile__container" onSubmit={handleSubmit}>
                 <h2 className="profile__title">Привет, {currentUser?.name}!</h2>
                 <fieldset className="profile__info">
                     <label className="profile__field-label">
                         <span className="profile__field-label-text">Имя</span>
-                        <input type="text" className="profile__field" name="name" id="name" placeholder="Имя" 
-                            autoComplete="off" required minLength="2" maxLength="30" value={name} onChange={handleChangeName} />
+                        <input
+                            type="text"
+                            className={`profile__field ${errors.name !== "" && "profile__field_notvalid"}`}
+                            name="name"
+                            id="name"
+                            placeholder="Имя"
+                            autoComplete="off"
+                            required
+                            minLength="2"
+                            maxLength="30"
+                            pattern="[A-Za-zА-Яа-яЁё -]+"
+                            value={values.name}
+                            onChange={handleChange} />
                     </label>
-                    <span className="profile__field-error user-name-error"></span>
-                    <hr className="profile__line"/>
+                    <span className="profile__field-error">{errors.name}</span>
+                    <hr className="profile__line" />
                     <label className="profile__field-label">
                         <span className="profile__field-label-text">E-mail</span>
-                        <input type="email" className="profile__field" name="email" id="email" placeholder="E-mail" 
-                            autoComplete="off" required value={email} onChange={handleChangeEmail} />
+                        <input
+                            type="email"
+                            className={`profile__field ${errors.email !== "" && "profile__field_notvalid"}`}
+                            name="email"
+                            id="email"
+                            placeholder="E-mail"
+                            autoComplete="off"
+                            required
+                            value={values.email}
+                            onChange={handleChange} />
                     </label>
-                    <span className="profile__field-error user-email-error"></span>
+                    <span className="profile__field-error">{errors.email}</span>
                 </fieldset>
-                <button className="profile__button" type="submit" aria-label="Редактировать">Редактировать</button>
-                <Link to="/sign-in" onClick={onSignOut} className="profile__link">
+                <span
+                    className={isSuccess ? "profile__field-success" : "profile__field-apierror"}>
+                    {apiMsg}
+                </span>
+                <button
+                    className={`profile__button ${(!isValid || isEqual) && "profile__button_disabled"}`}
+                    disabled={!isValid || isEqual}
+                    type="submit"
+                    aria-label="Редактировать">
+                    Редактировать
+                </button>
+                <Link to="/" onClick={onSignOut} className="profile__link">
                     Выйти из аккаунта
                 </Link>
             </form>

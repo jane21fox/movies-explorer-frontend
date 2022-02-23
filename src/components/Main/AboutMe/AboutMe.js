@@ -4,10 +4,10 @@ import me from '../../../images/me.jpg';
 import './AboutMe.css';
 
 function AboutMe() {
-    
+
     return (
         <section className="about-me">
-            <SectionTitle title="Студент" mark="about-me"/>
+            <SectionTitle title="Студент" mark="about-me" />
             <div className="about-me__info-container">
                 <div className="about-me__info">
                     <h3 className="about-me__title">Евгения</h3>
@@ -19,12 +19,12 @@ function AboutMe() {
                     </p>
                     <nav className="about-me__nav">
                         <ul className="about-me__nav-items">
-                            <li> 
+                            <li>
                                 <a href="https://github.com/jane21fox" target="_blank" className="about-me__link">
                                     Github
                                 </a>
                             </li>
-                            <li> 
+                            <li>
                                 <a href="https://facebook.com" target="_blank" className="about-me__link">
                                     Facebook
                                 </a>
@@ -32,7 +32,7 @@ function AboutMe() {
                         </ul>
                     </nav>
                 </div>
-                <img className="about-me__image" src={me} alt="Фото студента"/>
+                <img className="about-me__image" src={me} alt="Фото студента" />
             </div>
         </section>
     );

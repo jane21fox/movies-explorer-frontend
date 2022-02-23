@@ -3,7 +3,7 @@ import profile from '../../images/profile.svg';
 import './ProfileLink.css';
 
 function ProfileLink() {
-    
+
     return (
         <>
             Аккаунт

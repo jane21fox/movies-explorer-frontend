@@ -1,48 +1,52 @@
-import React, { useState } from 'react';
-import { Link  } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Form from '../Form/Form';
 import logo from '../../images/header-logo.svg';
+import { useFormWithValidation } from '../UseFormWithValidation/UseFormWithValidation';
 
 import './Login.css';
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    // const history = useHistory();
+const Login = ({ onLogin }) => {
 
-    // const resetForm = () => {
-    //     setEmail('');
-    //     setPassword('');
-    // };
+    const history = useHistory();
+    const [ApiMsg, setApiMsg] = useState('');
+
+    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
+        email: '',
+        password: ''
+    }, {
+        email: '',
+        password: ''
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setApiMsg('');
 
-        // onLogin({ password, email })
-        // .then(() => {
-        //     resetForm();
-        //     history.push('/');
-        // })
-        // .catch((err) => {
-        //     onStatus(false);
-        // });
+        const { password, email } = values;
+        onLogin({ password, email })
+            .then(() => {
+                resetForm({
+                    email: '',
+                    password: ''
+                }, {
+                    email: '',
+                    password: ''
+                });
+                history.push('/movies');
+            })
+            .catch((err) => {
+                setApiMsg(err);
+            });
     };
 
-    const handleChangeEmail = (e) => {
-        setEmail(e.target.value);
-    }
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            history.push('/movies');
+        }
+    }, []);
 
-    const handleChangePassword = (e) => {
-        setPassword(e.target.value);
-    }
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         history.push('/');
-    //     }
-    // }, []);
-
-    return(
+    return (
         <section className="login">
             <div className="login__header">
                 <Link to="/" className="login__link">
@@ -50,19 +54,18 @@ const Login = () => {
                 </Link>
                 <h2 className="login__title">Рады видеть!</h2>
             </div>
-            <Form 
-                formName="login" 
+            <Form
+                formName="login"
                 btnTitle="Войти"
                 question="Ещё не зарегистрированы?"
                 link="Регистрация"
                 linkRoute="sign-up"
-                name=""
-                email={email}
-                password={password}
-                handleChangeName=""
-                handleChangeEmail={handleChangeEmail}
-                handleChangePassword={handleChangePassword}
+                values={values}
+                errors={errors}
+                isValid={isValid}
+                handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                ApiMsg={ApiMsg}
             />
         </section>
     );
